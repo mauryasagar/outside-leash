@@ -27,17 +27,17 @@ UPLOAD_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploads")
 # model can never make the check stricter or looser than the quest.
 THEMES = [
     ("something with a repeating pattern",
-     "Does the photo show a repeating pattern, such as tiles, bricks, a fence, windows or bark?"),
+     "Is the main subject of the photo a repeating pattern, such as tiles, bricks, a fence, windows or bark?"),
     ("something much older than you",
-     "Does the photo show something that looks old or weathered, such as a wall, tree, stone or building?"),
+     "Is the main subject of the photo something that looks old or weathered, such as a wall, tree, stone or building? A plant or surface that is only in the background does not count."),
     ("something that is a different colour from everything around it",
-     "Does the photo show one object that stands out in colour from its surroundings?"),
+     "Is the main subject of the photo one object that clearly stands out in colour from everything around it?"),
     ("a living thing that is not a person",
-     "Does the photo show a plant, a bird, an insect or an animal?"),
+     "Is the main subject of the photo a plant, a bird, an insect or an animal?"),
     ("the sky",
-     "Does the photo show sky or clouds?"),
+     "Is at least half of the photo sky or clouds?"),
     ("a clear shadow",
-     "Does the photo show a clear shadow on the ground or a wall?"),
+     "Is a clear shadow the main subject of the photo?"),
 ]
 STYLES = ["find", "notice", "photograph"]
 
@@ -136,8 +136,15 @@ setInterval(async () => {
 fetch('/quest').then(r => r.json()).then(d => {
   qid = d.id;
   document.getElementById('quest').textContent = d.quest;
-  document.getElementById('f').disabled = false;
-  document.getElementById('g').disabled = false;
+  const onLaptop = ['localhost', '127.0.0.1'].includes(location.hostname);
+  if (onLaptop) {
+    document.getElementById('res').textContent = 'Do this one on your phone. Open the address above.';
+    document.getElementById('f').style.display = 'none';
+    document.getElementById('g').style.display = 'none';
+  } else {
+    document.getElementById('f').disabled = false;
+    document.getElementById('g').disabled = false;
+  }
 });
 async function handle(e) {
   const file = e.target.files[0];
@@ -195,6 +202,9 @@ class Handler(BaseHTTPRequestHandler):
     def do_POST(self):
         if not self.path.startswith("/check"):
             return self._send(404, json.dumps({"error": "not found"}))
+        ip = self.client_address[0]
+        if ip in ("127.0.0.1", "::1") or ip == lan_ip():
+            return self._send(403, json.dumps({"error": "Finish the quest from your phone, not this laptop."}))
         qid = self.path.split("id=")[-1] if "id=" in self.path else ""
         length = int(self.headers.get("Content-Length", 0))
         data = self.rfile.read(length)
