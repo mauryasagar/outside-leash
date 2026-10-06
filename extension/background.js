@@ -3,7 +3,7 @@
 // haven't completed a quest recently, the tab is sent to the local quest page.
 
 const SITES = ["youtube.com", "reddit.com", "instagram.com", "facebook.com", "x.com", "twitter.com"];
-const LIMIT_SECONDS = 60; // TESTING value. Change to 20 * 60 for real use.
+const LIMIT_SECONDS = 20 * 60; // TESTING value. Change to 20 * 60 for real use.
 const TICK_SECONDS = 30;  // how often we check (matches the alarm below)
 const SERVER = "http://localhost:8000";
 
