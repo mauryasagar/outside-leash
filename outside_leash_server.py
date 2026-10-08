@@ -114,16 +114,38 @@ PAGE = """<!doctype html><html><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Outside Leash</title>
 <style>
-body{font-family:system-ui,sans-serif;max-width:520px;margin:2rem auto;padding:0 1rem;line-height:1.5}
-button,input{font-size:1.1rem;margin-top:1rem}
-#res{margin-top:1rem;font-weight:600}
+:root{--bg:#0f1a14;--card:#16251c;--text:#eef5ef;--muted:#9bb3a2;--accent:#6fcf8e;--bad:#e8806f}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);color:var(--text);font-family:system-ui,sans-serif;padding:1rem}
+.card{width:100%;max-width:460px;background:var(--card);border-radius:20px;padding:2rem 1.5rem;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+.brand{color:var(--accent);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:.8rem}
+.label{color:var(--muted);font-size:.9rem;margin-top:1.5rem}
+#quest{font-size:1.5rem;line-height:1.35;font-weight:600;margin:.5rem 0 1.5rem}
+.btn{display:block;width:100%;padding:1rem;border-radius:14px;font-size:1.05rem;font-weight:600;cursor:pointer;margin-top:.75rem;border:0}
+.primary{background:var(--accent);color:#0b1a11}
+.secondary{background:transparent;color:var(--muted);border:1px solid #2f4a39}
+.btn input{display:none}
+#res{min-height:1.5rem;margin-top:1.25rem;font-weight:600}
+.ok{color:var(--accent)}
+.bad{color:var(--bad)}
+.addr{margin-top:.5rem;padding:.75rem;border-radius:12px;background:#0f1a14;font-family:ui-monospace,monospace;color:var(--accent);word-break:break-all}
+.hint{color:var(--muted);font-size:.85rem;margin-top:1rem}
 </style></head><body>
-<h2>Outside Leash</h2>
-<p id="quest">Loading your quest...</p>
-<p><small>On your phone open: <b>__PHONE__</b></small></p>
-<input id="f" type="file" accept="image/*" capture="environment" disabled><br>
-<input id="g" type="file" accept="image/*" disabled> <small>(or pick from gallery)</small>
-<p id="res"></p>
+<div class="card">
+  <div class="brand">Outside Leash</div>
+  <div class="label">Your quest</div>
+  <div id="quest">Loading your quest...</div>
+  <div id="laptop" style="display:none">
+    <div class="label">Open this on your phone</div>
+    <div class="addr">__PHONE__</div>
+    <div class="hint">Same Wi-Fi as this laptop. This page unlocks by itself once you pass.</div>
+  </div>
+  <div id="phone" style="display:none">
+    <label class="btn primary">Take a photo<input id="f" type="file" accept="image/*" capture="environment"></label>
+    <label class="btn secondary">Pick from gallery<input id="g" type="file" accept="image/*"></label>
+  </div>
+  <div id="res"></div>
+</div>
 <script>
 let qid = null;
 const back = new URLSearchParams(location.search).get('back');
@@ -137,19 +159,13 @@ fetch('/quest').then(r => r.json()).then(d => {
   qid = d.id;
   document.getElementById('quest').textContent = d.quest;
   const onLaptop = ['localhost', '127.0.0.1'].includes(location.hostname);
-  if (onLaptop) {
-    document.getElementById('res').textContent = 'Do this one on your phone. Open the address above.';
-    document.getElementById('f').style.display = 'none';
-    document.getElementById('g').style.display = 'none';
-  } else {
-    document.getElementById('f').disabled = false;
-    document.getElementById('g').disabled = false;
-  }
+  document.getElementById(onLaptop ? 'laptop' : 'phone').style.display = 'block';
 });
 async function handle(e) {
   const file = e.target.files[0];
   if (!file) return;
   const res = document.getElementById('res');
+  res.className = '';
   res.textContent = 'Checking your photo...';
   try {
     let body = file;
@@ -163,8 +179,11 @@ async function handle(e) {
     } catch (err) { console.log('resize failed, sending original', err); }
     const r = await fetch('/check?id=' + qid, {method: 'POST', body: body});
     const d = await r.json();
-    res.textContent = d.error ? d.error : (d.passed ? 'Passed. You can go back to your laptop.' : 'Not quite. Try another photo.');
+    if (d.error) { res.className = 'bad'; res.textContent = d.error; }
+    else if (d.passed) { res.className = 'ok'; res.textContent = 'Passed. You can go back to your laptop.'; }
+    else { res.className = 'bad'; res.textContent = 'Not quite. Try another photo.'; }
   } catch (err) {
+    res.className = 'bad';
     res.textContent = 'Upload failed: ' + err;
   }
   e.target.value = '';
