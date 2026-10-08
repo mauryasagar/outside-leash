@@ -40,3 +40,8 @@ Template for each lockout:
 - **What I did:**
 - **Did the check get it right:**
 - **What annoyed me:**
+
+## Oct 8 - spoof test
+4 test photos on the old-thing check. New object: correctly no. Screen showing YouTube: correctly no. Real old photo: correctly yes. Photo of a tree on a screen: wrongly yes (the spoof works).
+Tried adding 'if it's a screen, say no' to the question: broke the real photo and still passed the spoof.
+Tried a separate 'is this a screen' question: caught both screens but also called my real old photo a screen. Not added to the server.
