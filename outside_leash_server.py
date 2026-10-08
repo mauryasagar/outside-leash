@@ -141,8 +141,8 @@ body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:c
     <div class="hint">Same Wi-Fi as this laptop. This page unlocks by itself once you pass.</div>
   </div>
   <div id="phone" style="display:none">
-    <label class="btn primary">Take a photo<input id="f" type="file" accept="image/*" capture="environment"></label>
-    <label class="btn secondary">Pick from gallery<input id="g" type="file" accept="image/*"></label>
+    <label class="btn primary">Add your photo<input id="g" type="file" accept="image/*"></label>
+    <div class="hint">Take the photo in your Camera app first, then add it here. Photos older than 10 minutes are rejected.</div>
   </div>
   <div id="res"></div>
 </div>
@@ -166,6 +166,14 @@ async function handle(e) {
   if (!file) return;
   const res = document.getElementById('res');
   res.className = '';
+  // reject old photos (checks when the file was saved, not where it came from)
+  const ageMin = (Date.now() - file.lastModified) / 60000;
+  if (ageMin > 10) {
+    res.className = 'bad';
+    res.textContent = 'That photo is older than 10 minutes. Take a new one.';
+    e.target.value = '';
+    return;
+  }
   res.textContent = 'Checking your photo...';
   try {
     let body = file;
@@ -188,7 +196,6 @@ async function handle(e) {
   }
   e.target.value = '';
 }
-document.getElementById('f').addEventListener('change', handle);
 document.getElementById('g').addEventListener('change', handle);
 </script></body></html>"""
 
