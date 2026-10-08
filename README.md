@@ -28,7 +28,7 @@ flowchart TD
     B -- Yes --> C["Extension redirects to quest page"]
     C --> D["Server picks a random theme"]
     D --> E["Gemma words the quest"]
-    E --> F["Go outside, take a photo on your phone"]
+    E --> F["Take a photo, add it on the phone page"]
     F --> G["Gemma checks the photo"]
     G -- No --> F
     G -- Yes --> H["Sites unlock for 30 min"]
@@ -54,6 +54,7 @@ flowchart LR
 - **Gemma** only words the quest. The yes/no check for each theme is written by hand, so the model can't make the check easier or harder than the quest.
 - A quest stays the same until you pass it, so refreshing won't get you an easier one.
 - Uploads from the laptop are blocked, so only the phone can finish a quest.
+- On the phone, you take the photo in your Camera app and add it on the page. Photos older than 10 minutes are rejected.
 
 ## What you need
 
@@ -61,7 +62,7 @@ flowchart LR
 |---|---|
 | Windows laptop | Tested on 16 GB RAM, no GPU |
 | Python 3 | No extra packages |
-| Ollama | With the `gemma4:e2b` model |
+| [Ollama](https://ollama.com/download) | With the `gemma4:e2b` model |
 | Chrome | For the extension |
 | Phone | On the same Wi-Fi as the laptop |
 
@@ -72,7 +73,7 @@ outside-leash/
 ├── extension/
 │   ├── manifest.json        # extension config and permissions
 │   └── background.js        # time tracking, blocklist, redirect
-├── outside_leash_server.py  # server, quests and photo check
+├── outside_leash_server.py  # server, quest page, quests and photo check
 ├── test_check.py            # test script for the photo check
 ├── test_screen.py           # test script for the screen check
 ├── log.md                   # build and lockout log
@@ -101,7 +102,7 @@ ollama pull gemma4:e2b
 **2. Get the code**
 
 ```
-git clone <your-repo-url>
+git clone https://github.com/mauryasagar/outside-leash.git
 cd outside-leash
 ```
 
