@@ -45,3 +45,6 @@ Template for each lockout:
 4 test photos on the old-thing check. New object: correctly no. Screen showing YouTube: correctly no. Real old photo: correctly yes. Photo of a tree on a screen: wrongly yes (the spoof works).
 Tried adding 'if it's a screen, say no' to the question: broke the real photo and still passed the spoof.
 Tried a separate 'is this a screen' question: caught both screens but also called my real old photo a screen. Not added to the server.
+
+## Oct 8 - phone page test
+Quest was 'something a different colour'. Photo of grey towels on a white wall: rejected. Grey concrete floor: rejected. Pink cloth on grey concrete: passed. The 'Take a photo' button kept crashing my phone browser with a low memory error, so I replaced it with one 'Add your photo' button and a 10-minute photo age check.
