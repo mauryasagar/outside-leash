@@ -6,7 +6,7 @@
 Hit your daily limit, go outside, send a photo, get your sites back.
 
 Chrome extension · Python server · Gemma 4 E2B via Ollama · 100% local
-
+> ### Built for the Hacktoberfest Open-Source AI Challenge, Week 1: Touch Grass
 </div>
 
 ---
@@ -15,9 +15,8 @@ Chrome extension · Python server · Gemma 4 E2B via Ollama · 100% local
 
 After 20 minutes a day on YouTube, Reddit, Instagram, Facebook or X, the extension sends you to a quest page. You only get back in by sending a photo from your phone that matches the quest. Pass, and the sites unlock for 30 minutes.
 
-Everything runs on your own laptop. No cloud, no API keys, no pip installs.
+Everything runs on your own laptop. No cloud and no API keys.
 
-Built for the DEV Hacktoberfest "Touch Grass" challenge.
 
 ## How it works
 
@@ -157,6 +156,9 @@ These are at the top of the file. After editing, go to `chrome://extensions` and
 
 If you change `PORT` in the server, change `SERVER` in the extension to match.
 
+#
+
+> ### Built for the Hacktoberfest Open-Source AI Challenge, Week 1: Touch Grass
 
 ## License
 
