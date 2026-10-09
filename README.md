@@ -70,14 +70,15 @@ flowchart LR
 ```
 outside-leash/
 ├── extension/
-│   ├── manifest.json        # extension config and permissions
-│   └── background.js        # time tracking, blocklist, redirect
-├── outside_leash_server.py  # server, quest page, quests and photo check
-├── test_check.py            # test script for the photo check
-├── test_screen.py           # test script for the screen check
-├── log.md                   # build and lockout log
-├── .gitignore
-└── README.md
+│   ├── background.js          # time tracking, blocklist, redirect
+│   └── manifest.json          # extension config and permissions
+├── .gitignore                 # keeps uploads/ and test photos out of git
+├── LICENSE                    # MIT
+├── README.md
+├── log.md                     # build and lockout log
+├── outside_leash_server.py    # server, quest page, quest themes, photo check
+├── test_check.py              # tests the "old thing" photo check on sample photos
+└── test_screen.py             # tests the "is this a screen" check
 ```
 
 ## Setup
