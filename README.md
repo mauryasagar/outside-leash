@@ -87,6 +87,10 @@ flowchart LR
 
 ```
 outside-leash/
+├── assets/
+│   ├── passed-phone.jpeg      # screenshot: photo accepted
+│   ├── quest-laptop.png       # screenshot: quest page on the laptop
+│   └── quest-phone.jpeg       # screenshot: quest page on the phone
 ├── extension/
 │   ├── background.js          # time tracking, blocklist, redirect
 │   └── manifest.json          # extension config and permissions
