@@ -17,6 +17,24 @@ After 20 minutes a day on YouTube, Reddit, Instagram, Facebook or X, the extensi
 
 Everything runs on your own laptop. No cloud and no API keys.
 
+## Screenshots
+
+<p align="center">
+  <img src="assets/quest-laptop.png" alt="Quest page on the laptop" width="80%">
+  <br>
+  <em>The quest page on the windows, with the address to open on your phone</em>
+</p>
+
+<table align="center">
+  <tr>
+    <td align="center"><img src="assets/quest-phone.jpeg" alt="Quest page on the phone" width="260"></td>
+    <td align="center"><img src="assets/passed-phone.jpeg" alt="Passed screen on the phone" width="260"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>On the phone, you add your photo</em></td>
+    <td align="center"><em>Photo accepted, sites unlock for 30 minutes</em></td>
+  </tr>
+</table>
 
 ## How it works
 
